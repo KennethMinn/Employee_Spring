@@ -34,6 +34,24 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public Employee createEmployee(@RequestBody Employee employee){
-        return employeeService.createEmployee(employee);
+        return employeeService.saveEmployee(employee);
+    }
+
+    @PutMapping("/employees/{employeeId}")
+    public Employee updateEmployee(@PathVariable int employeeId,@RequestBody Employee employee){
+        Employee existedEmployee = employeeService.getEmployee(employeeId);
+        if(existedEmployee == null){
+            throw new EmployeeNotFoundException("Employee not found with id : " + employeeId);
+        }
+        existedEmployee.setFirstName(employee.getFirstName());
+        existedEmployee.setLastName(employee.getLastName());
+        existedEmployee.setEmail(employee.getEmail());
+
+        return employeeService.saveEmployee(existedEmployee);
+    }
+
+    @DeleteMapping("/employees/{employeeId}")
+    public void deleteEmployee(@PathVariable int employeeId){
+        employeeService.deleteEmployee(employeeId);
     }
 }

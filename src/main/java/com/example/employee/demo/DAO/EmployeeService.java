@@ -24,7 +24,11 @@ public class EmployeeService {
     }
 
     //both create and update
-    public Employee createEmployee(Employee employee){
+    public Employee saveEmployee(Employee employee){
         return employeeRepo.save(employee);
+    }
+
+    public void deleteEmployee(int id){
+        employeeRepo.deleteById(id);
     }
 }
